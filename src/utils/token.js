@@ -1,18 +1,19 @@
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import env from "../config/env.js";
 
 export const generateAccessToken = (user) => {
-  return jwt.sign(
-    { id: user.id },
-    process.env.JWT_ACCESS_SECRET,
-    { expiresIn: "15m" }
-  );
-};
-
-export const generateRefreshToken = () => {
-  return crypto.randomBytes(40).toString("hex");
+  return jwt.sign({ id: user.id }, env.jwtAccessSecret, { expiresIn: env.jwtAccessExpires });
 };
 
 export const verifyAccessToken = (token) => {
-  return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  return jwt.verify(token, env.jwtAccessSecret);
+};
+
+export const generateRefreshTokenPlain = () => {
+  return crypto.randomBytes(48).toString("hex");
+};
+
+export const hashToken = (token) => {
+  return crypto.createHash("sha256").update(token).digest("hex");
 };

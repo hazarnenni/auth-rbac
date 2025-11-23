@@ -1,6 +1,6 @@
-import * as RoleService from "./role.service.js";
+import * as RoleService from "../services/role.service.js";
 
-export const assignRole = async (req, res) => {
+export const assign = async (req, res) => {
   try {
     const { userId, roleName } = req.body;
     const role = await RoleService.assignRole(userId, roleName);
@@ -10,7 +10,7 @@ export const assignRole = async (req, res) => {
   }
 };
 
-export const revokeRole = async (req, res) => {
+export const revoke = async (req, res) => {
   try {
     const { userId, roleName } = req.body;
     await RoleService.revokeRole(userId, roleName);

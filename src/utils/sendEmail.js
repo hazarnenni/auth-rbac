@@ -1,18 +1,19 @@
 import nodemailer from "nodemailer";
+import env from "../config/env.js";
 
-export const sendEmail = async (to, subject, html) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS
-    }
-  });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: env.mailUser,
+    pass: env.mailPass
+  }
+});
 
+export const sendEmail = async ({ to, subject, html }) => {
   await transporter.sendMail({
-    from: `"Auth System" <${process.env.MAIL_USER}>`,
+    from: `"Auth RBAC" <${env.mailUser}>`,
     to,
     subject,
-    html,
+    html
   });
 };
